@@ -65,7 +65,7 @@ It is recommended that the scripts be run in order and can be run with the scrip
 3. **Google Search Trends Analysis**
 
 - **Script:** `code/03-web-search-trends.do`
-- **Purpose:** Processes and visualizes Google search trends for the terms "Adultery," "Adultery law," and "Abolition of adultery law."
+- **Purpose:** Processes and visualizes Google search trends for the terms "Adultery," "Adultery law," and "Abolition of adultery law" (in Korean)
 - **Inputs:**
   - `data/adultery_abolition.csv` (Google search data obtained from Google Trends)
   - `data/adultery_crime.csv`
