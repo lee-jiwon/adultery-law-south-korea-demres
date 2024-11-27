@@ -36,9 +36,9 @@ It is recommended that the scripts be run in order and can be run with the scrip
 
 1. **Data Preparation**
 
-- **Script:** `code/01-data-prep.do`
-- **Purpose:** Prepares the data for analysis.
-- **Inputs (KLoWF individual-level data Waves 1-5):**
+**Script:** `code/01-data-prep.do`
+ Prepares the data for analysis.
+- **Inputs** (KLoWF individual-level data Waves 1-5):
   - `data/klowf01p.dta` 
   - `data/klowf02p.dta` 
   - `data/klowf03p.dta` 
