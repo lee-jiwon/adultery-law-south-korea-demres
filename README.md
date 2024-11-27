@@ -39,11 +39,11 @@ It is recommended that the scripts be run in order and can be run with the scrip
 - **Script:** `code/01-data-prep.do`
 - **Purpose:** Prepares the data for analysis.
 - **Inputs:**
-  - `data/klowf01p.dta` (KLoWF micro-level data Wave 1)
-  - `data/klowf02p.dta` (KLoWF micro-level data Wave 2)
-  - `data/klowf03p.dta` (KLoWF micro-level data Wave 3)
-  - `data/klowf04p.dta` (KLoWF micro-level data Wave 4)
-  - `data/klowf05p.dta` (KLoWF micro-level data Wave 5)
+  - `data/klowf01p.dta` (KLoWF individual-level data Waves 1-5)
+  - `data/klowf02p.dta` 
+  - `data/klowf03p.dta` 
+  - `data/klowf04p.dta` 
+  - `data/klowf05p.dta` 
 - **Calls:**
   - `code/remove-labels.do` (Removes variable/value labels; comment out if you need the labels)
 - **Output:**
