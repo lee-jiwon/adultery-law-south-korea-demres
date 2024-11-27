@@ -37,7 +37,7 @@ It is recommended that the scripts be run in order and can be run with the scrip
 1. **Data Preparation**
 
 **Script:** `code/01-data-prep.do`
- Prepares the data for analysis.
+ - Prepares the data for analysis.
 - **Inputs** (KLoWF individual-level data Waves 1-5):
   - `data/klowf01p.dta` 
   - `data/klowf02p.dta` 
@@ -52,7 +52,7 @@ It is recommended that the scripts be run in order and can be run with the scrip
 2. **Descriptive Analysis**
 
 - **Script:** `code/02-descriptives.do`
-- **Purpose:** Produces descriptive statistics (e.g., sample means of key variables) and visualizes the distribution of interview dates.
+- Produces descriptive statistics (e.g., sample means of key variables) and visualizes the distribution of interview dates.
 - **Input:**
   - `data/data_w1_w5_recoded.dta`
 - **Outputs:**
@@ -65,7 +65,7 @@ It is recommended that the scripts be run in order and can be run with the scrip
 3. **Google Search Trends Analysis**
 
 - **Script:** `code/03-web-search-trends.do`
-- **Purpose:** Processes and visualizes Google search trends for the terms "Adultery," "Adultery law," and "Abolition of adultery law" (in Korean)
+- Processes and visualizes Google search trends for the terms "Adultery," "Adultery law," and "Abolition of adultery law" (in Korean)
 - **Inputs:**
   - `data/adultery_abolition.csv` (Google search data obtained from Google Trends)
   - `data/adultery_crime.csv`
@@ -79,7 +79,7 @@ It is recommended that the scripts be run in order and can be run with the scrip
 4. **Main Analysis**
 
 - **Script:** `code/04-analysis.do`
-- **Purpose:** Estimates the main models and generates accompanying graphs.
+- Estimates the main models and generates accompanying graphs.
 - **Input:**
   - `data/data_w1_w5_recoded.dta`
 - **Outputs:**
