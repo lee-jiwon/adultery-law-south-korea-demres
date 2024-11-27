@@ -21,7 +21,7 @@ preceded, as necessary, by any machine-specific location information that indica
 
 
 ### 2. Data Requirements
-This study employs person-level data from Waves 1–5 of the Korean Longitudinal Survey of Women and Families (KLoWF), as well as data from Google Trends. All required data can be downloaded from the authors' [Dropbox](https://www.dropbox.com/scl/fo/ys78iii2eo952ab7bx9dq/h?dl=0&rlkey=cs33pcs5btwses89loy8rp9rm) and should be placed into the /data folder before executing any do-files. 
+This study employs person-level data from Waves 1–5 of the Korean Longitudinal Survey of Women and Families (KLoWF), as well as data from Google Trends. All required data can be downloaded from the authors' [Dropbox](https://www.dropbox.com/scl/fo/x785xq4fh2y2xzpxlrlhv/AI_NV7_Ece9kuwk1SNaDtME?rlkey=oh07fbvua2pbmmas00iipclqd&st=smxq1m2z&dl=0) and should be placed into the /data folder before executing any do-files. 
 
 (**Important Note:** The KLoWF dataset can also be obtained directly from the [KLoWF Portal](https://gsis.kwdi.re.kr/klowf/portal/eng/dataSet/), which now includes an English version with English variable labels (not available at the time this research was conducted). The latest version of KLoWF, as of November 27, 2024, includes significant updates to variable names (and possibly minor changes to the variables themselves), which will require manual adjustments to the code for alignment. The changes to the variables, if any, may affect the ability to fully replicate the findings. To ensure exact replication, it is recommended to use the specific version of the dataset utilized in the study, available via the Dropbox link above)
 
