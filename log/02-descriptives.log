@@ -1,0 +1,775 @@
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\wd\adultery_law_korea\log/02-descriptives.log
+  log type:  text
+ opened on:  27 Nov 2024, 12:26:22
+
+. 
+. use data/data_w1_w5_recoded.dta, clear
+
+. 
+. keep if w4_part ==1 & w5_part == 1 & w3_part == 1 & w2_part ==1 & w1_par== 1
+(9,839 observations deleted)
+
+. keep if num_y == 5 // drop Rs with missing outcome in any wave
+(50 observations deleted)
+
+. drop if covar_miss == 1 // drop Rs with missing covariates
+(10 observations deleted)
+
+. 
+. ********************************************************************************
+. *** Descriptive Statistics of the outcome and contionous covariates
+. ********************************************************************************
+. 
+. *** The number of respondents who change marital status during w1-w5
+. count if W == 4
+  6,140
+
+. count if marital_1_r == marital_2_r == marital_3_r == marital_4_r & W == 4
+  6,073
+
+. tab marital_4_r [aw= wt_rs] if W ==4 
+
+      Marital |
+  status (w4) |      Freq.     Percent        Cum.
+--------------+-----------------------------------
+Never Married | 1,294.0546       21.08       21.08
+ Ever Married | 4,845.9454       78.92      100.00
+--------------+-----------------------------------
+        Total |      6,140      100.00
+
+. 
+. *** Mean outcome pre/post-treatment by treatment group status
+. egen y_m = rowmean(y1_r y2_r y3_r y4_r) // create the mean of w1-4 outcomes
+
+. 
+. * pre-treatment period averages
+. sum y_m [aw= wt_rs] if days_all >= 88 & post == 0 & W == 4 & d== 1  
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+         y_m |     406  .076570498    2.628038   .5246557       1.25          4
+
+. scalar  y_pre_t = round(r(mean), 0.01) 
+
+. scalar  y_sd_pre_t = round(r(sd), 0.01) 
+
+. 
+. sum y_m [aw= wt_rs] if days_all >= 88 & post == 0 & W == 4 & d== 0 
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+         y_m |   4,675  .629339569    2.523737   .5681544          1          4
+
+. scalar y_pre_u = round(r(mean), 0.01) 
+
+. scalar y_sd_pre_u = round(r(sd), 0.01) 
+
+. 
+. reg y_m i.d [pw= wt_rs] if days_all >= 88 & post == 0 & W == 4 // t-test of pre-treatment differences
+(sum of wgt is .7059100667884195)
+
+Linear regression                               Number of obs     =      5,081
+                                                F(1, 5079)        =       2.54
+                                                Prob > F          =     0.1110
+                                                R-squared         =     0.0033
+                                                Root MSE          =     .56359
+
+------------------------------------------------------------------------------
+             |               Robust
+         y_m | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         1.d |   .1043005   .0654253     1.59   0.111    -.0239613    .2325623
+       _cons |   2.523737   .0183583   137.47   0.000     2.487747    2.559727
+------------------------------------------------------------------------------
+
+. mat mat = r(table)
+
+. scalar y_diff_pre = round(mat[1,2], 0.01)
+
+. scalar y_diff_pre_se = round(mat[2,2], 0.01)
+
+. scalar y_diff_pre_p = round(mat[4,2], 0.01)
+
+. 
+. * post-treatment period averages
+. sum y [aw= wt_rs] if days_all >= 88 & W == 5 & d== 1 // post-treatment averages
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+           y |     406  .076570498    2.405182   .7264108          1          4
+
+. scalar  y_post_t = round(r(mean), 0.01)
+
+. scalar  y_sd_post_t = round(r(sd), 0.01)
+
+. 
+. sum y [aw= wt_rs] if days_all >= 88 & W == 5 & d== 0 // post-treatment averages
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+           y |   4,675  .629339569    2.530962   .7890874          1          4
+
+. scalar  y_post_u = round(r(mean), 0.01)
+
+. scalar  y_sd_post_u = round(r(sd), 0.01)
+
+. 
+. reg y i.d [pw= wt_rs] if days_all >= 88 & post == 1 & W == 5 // t-test of post-treatment differences
+(sum of wgt is .7059100667884195)
+
+Linear regression                               Number of obs     =      5,081
+                                                F(1, 5079)        =       3.41
+                                                Prob > F          =     0.0647
+                                                R-squared         =     0.0025
+                                                Root MSE          =     .78252
+
+------------------------------------------------------------------------------
+             |               Robust
+           y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         1.d |  -.1257796   .0680726    -1.85   0.065    -.2592312     .007672
+       _cons |   2.530962    .024104   105.00   0.000     2.483708    2.578216
+------------------------------------------------------------------------------
+
+. mat mat = r(table)
+
+. scalar y_diff_post = round(mat[1,2], 0.01)
+
+. scalar y_diff_post_se = round(mat[2,2], 0.01)
+
+. scalar y_diff_post_p = round(mat[4,2], 0.01)
+
+. 
+. * estimates for self-rated health
+. sum health_4 if d == 0 & days_all >= 88 & W == 4 [aw= wt_rs]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    health_4 |   4,675  .629339569    3.601753   .8780123          1          5
+
+. scalar health_u =  round(r(mean), 0.01)
+
+. scalar health_sd_u = round(r(sd), 0.01)
+
+. 
+. sum health_4 if d == 1 & days_all >= 88 & W == 4 [aw= wt_rs]
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+    health_4 |     406  .076570498    3.490312    .771888          1          5
+
+. scalar health_t =  round(r(mean), 0.01)
+
+. scalar health_sd_t = round(r(sd), 0.01)
+
+. 
+. reg health_4 i.d [pw= wt_rs] if W ==4  & days_all >= 88
+(sum of wgt is .7059100667884195)
+
+Linear regression                               Number of obs     =      5,081
+                                                F(1, 5079)        =       1.99
+                                                Prob > F          =     0.1586
+                                                R-squared         =     0.0016
+                                                Root MSE          =     .86712
+
+------------------------------------------------------------------------------
+             |               Robust
+    health_4 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         1.d |   -.111441   .0790268    -1.41   0.159    -.2663676    .0434856
+       _cons |   3.601753    .031322   114.99   0.000     3.540348    3.663157
+------------------------------------------------------------------------------
+
+. mat mat = r(table)
+
+. scalar health_diff = round(mat[1,2], 0.01)
+
+. scalar health_diff_se = round(mat[2,2], 0.01)
+
+. scalar health_diff_p = round(mat[4,2], 0.01)
+
+. 
+. ********************************************************************************
+. *** Descriptive Statistics of discrete covariates
+. ********************************************************************************
+. 
+. *** Dummies for each level of the covariates
+. foreach var in age_4_r educ_4_r  employed_4_r relig_4_r reg15_1_r  {
+  2.         dis ""
+  3.         dis "*******************************************************************"
+  4.         dis "Distribution of: `var'"
+  5.         dis "*******************************************************************"
+  6.         dis ""
+  7.         tab `var', gen(`var'_c)
+  8. }
+
+*******************************************************************
+Distribution of: age_4_r
+*******************************************************************
+
+
+  Age groups |
+        (w4) |      Freq.     Percent        Cum.
+-------------+-----------------------------------
+    Below 40 |      7,060       23.00       23.00
+       40-49 |      9,365       30.50       53.50
+50 and Above |     14,275       46.50      100.00
+-------------+-----------------------------------
+       Total |     30,700      100.00
+
+*******************************************************************
+Distribution of: educ_4_r
+*******************************************************************
+
+
+    Eduation |
+        (w4) |      Freq.     Percent        Cum.
+-------------+-----------------------------------
+  HS or Less |     22,145       72.13       72.13
+AA/BA/MA/PHD |      8,555       27.87      100.00
+-------------+-----------------------------------
+       Total |     30,700      100.00
+
+*******************************************************************
+Distribution of: employed_4_r
+*******************************************************************
+
+
+   Employement |
+   status (w4) |      Freq.     Percent        Cum.
+---------------+-----------------------------------
+Unemployed/NIL |     13,680       44.56       44.56
+      Employed |     17,020       55.44      100.00
+---------------+-----------------------------------
+         Total |     30,700      100.00
+
+*******************************************************************
+Distribution of: relig_4_r
+*******************************************************************
+
+
+   Religion |
+       (w4) |      Freq.     Percent        Cum.
+------------+-----------------------------------
+ None/Other |     12,755       41.55       41.55
+ Protestant |      6,700       21.82       63.37
+   Catholic |      2,245        7.31       70.68
+   Buddhist |      9,000       29.32      100.00
+------------+-----------------------------------
+      Total |     30,700      100.00
+
+*******************************************************************
+Distribution of: reg15_1_r
+*******************************************************************
+
+
+  reg15_1_r |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |      8,130       26.48       26.48
+          2 |      6,410       20.88       47.36
+          3 |     16,160       52.64      100.00
+------------+-----------------------------------
+      Total |     30,700      100.00
+
+. 
+. * tabulate
+. estpost tabstat  age_4_r_* educ_4_r_*  employed_4_r_* ///
+>         relig_4_r_* reg15_1_r_*  ///
+>         if days_all >= 88 & W == 4 [aw= wt_rs], by(d) c(stat) stat( mean sd n)
+
+Summary statistics: mean sd count
+     for variables: age_4_r_c1 age_4_r_c2 age_4_r_c3 educ_4_r_c1 educ_4_r_c2 employed_4_r_c1 employed_4_r_c2 relig_4_r_c1 relig_4_r_c2 relig_4_r_c3 relig_4_r_c4 re
+> g15_1_r_c1 reg15_1_r_c2 reg15_1_r_c3
+  by categories of: d
+
+           d |   e(mean)      e(sd)   e(count) 
+-------------+---------------------------------
+0            |                                 
+  age_4_r_c1 |  .3958508    .489085       4675 
+  age_4_r_c2 |  .2390121   .4265257       4675 
+  age_4_r_c3 |  .3651371   .4815201       4675 
+ educ_4_r_c1 |  .5971032   .4905328       4675 
+ educ_4_r_c2 |  .4028968   .4905328       4675 
+employed_4~1 |  .4854356   .4998413       4675 
+employed_4~2 |  .5145644   .4998413       4675 
+relig_4_r_c1 |  .4714056   .4992351       4675 
+relig_4_r_c2 |  .2178756   .4128466       4675 
+relig_4_r_c3 |  .0849912   .2788984       4675 
+relig_4_r_c4 |  .2257277   .4181053       4675 
+reg15_1_r_c1 |  .3761433   .4844685       4675 
+reg15_1_r_c2 |  .2236665   .4167457       4675 
+reg15_1_r_c3 |  .4001901   .4899891       4675 
+-------------+---------------------------------
+1            |                                 
+  age_4_r_c1 |  .4394047    .496927        406 
+  age_4_r_c2 |  .2677514   .4433336        406 
+  age_4_r_c3 |  .2928439   .4556289        406 
+ educ_4_r_c1 |  .5578049   .4972601        406 
+ educ_4_r_c2 |  .4421951   .4972601        406 
+employed_4~1 |  .4431253   .4973676        406 
+employed_4~2 |  .5568747   .4973676        406 
+relig_4_r_c1 |  .5233657     .50007        406 
+relig_4_r_c2 |  .2902999   .4544607        406 
+relig_4_r_c3 |  .0584697    .234919        406 
+relig_4_r_c4 |  .1278647   .3343511        406 
+reg15_1_r_c1 |  .3432747   .4753881        406 
+reg15_1_r_c2 |  .2639218   .4413012        406 
+reg15_1_r_c3 |  .3928035   .4889763        406 
+-------------+---------------------------------
+Total        |                                 
+  age_4_r_c1 |  .4005752   .4900632       5081 
+  age_4_r_c2 |  .2421294   .4284144       5081 
+  age_4_r_c3 |  .3572954     .47925       5081 
+ educ_4_r_c1 |  .5928405   .4913534       5081 
+ educ_4_r_c2 |  .4071595   .4913534       5081 
+employed_4~1 |  .4808461   .4996822       5081 
+employed_4~2 |  .5191539   .4996822       5081 
+relig_4_r_c1 |  .4770417   .4995218       5081 
+relig_4_r_c2 |  .2257315   .4181043       5081 
+relig_4_r_c3 |  .0821144   .2745659       5081 
+relig_4_r_c4 |  .2151124   .4109407       5081 
+reg15_1_r_c1 |  .3725781   .4835387       5081 
+reg15_1_r_c2 |   .228033   .4196053       5081 
+reg15_1_r_c3 |  .3993889    .489821       5081 
+
+. 
+. ereturn list
+
+scalars:
+                  e(N) =  5081
+
+macros:
+                e(cmd) : "estpost"
+             e(subcmd) : "tabstat"
+              e(wtype) : "aweight"
+               e(wexp) : "= wt_rs"
+              e(stats) : "mean sd count"
+               e(vars) : "age_4_r_c1 age_4_r_c2 age_4_r_c3 educ_4_r_c1 educ_4_r_c2 employed_4_r_c1 employed_4_r_c2 relig_4_r_c1 relig_4_r_c2 relig_4_r_c3 relig.."
+              e(byvar) : "d"
+
+matrices:
+               e(mean) :  1 x 42
+                 e(sd) :  1 x 42
+              e(count) :  1 x 42
+
+. 
+. esttab, main(mean %8.2fc) aux(sd  %8.2fc) nostar nonumber unstack ///
+>    nonote noobs label ///
+>    collabels(none) ///
+>    eqlabels("Comparison" "Treated") /// 
+>    nomtitles
+
+-----------------------------------------------------------
+                       Comparison      Treated        Total
+-----------------------------------------------------------
+age_4_r==Below 40            0.40         0.44         0.40
+                           (0.49)       (0.50)       (0.49)
+
+age_4_r==40-49               0.24         0.27         0.24
+                           (0.43)       (0.44)       (0.43)
+
+age_4_r==50 and Ab~e         0.37         0.29         0.36
+                           (0.48)       (0.46)       (0.48)
+
+educ_4_r==HS or Less         0.60         0.56         0.59
+                           (0.49)       (0.50)       (0.49)
+
+educ_4_r==AA/BA/MA~D         0.40         0.44         0.41
+                           (0.49)       (0.50)       (0.49)
+
+employed_4_r==Unem~L         0.49         0.44         0.48
+                           (0.50)       (0.50)       (0.50)
+
+employed_4_r==Empl~d         0.51         0.56         0.52
+                           (0.50)       (0.50)       (0.50)
+
+relig_4_r==None/Ot~r         0.47         0.52         0.48
+                           (0.50)       (0.50)       (0.50)
+
+relig_4_r==Protest~t         0.22         0.29         0.23
+                           (0.41)       (0.45)       (0.42)
+
+relig_4_r==Catholic          0.08         0.06         0.08
+                           (0.28)       (0.23)       (0.27)
+
+relig_4_r==Buddhist          0.23         0.13         0.22
+                           (0.42)       (0.33)       (0.41)
+
+reg15_1_r==  ..0000          0.38         0.34         0.37
+                           (0.48)       (0.48)       (0.48)
+
+reg15_1_r==  ..0000          0.22         0.26         0.23
+                           (0.42)       (0.44)       (0.42)
+
+reg15_1_r==  ..0000          0.40         0.39         0.40
+                           (0.49)       (0.49)       (0.49)
+-----------------------------------------------------------
+
+.    
+. * store the estimates into a matrix and generate scalars
+. mat mat_disc = e(mean)
+
+. 
+. * Define names for the scalars
+. local varnames "age_c1 age_c2 age_c3 educ_c1 educ_c2 emp_c1 emp_c2 relig_c1 relig_c2 relig_c3 relig_c4 reg15_c1 reg15_c2 reg15_c3"
+
+. local suffixes "_u _t"
+
+. 
+. * Loop over variable names and suffixes
+. local col = 1
+
+. foreach suffix in `suffixes' {
+  2.     foreach var in `varnames' {
+  3.         scalar `var'`suffix' = round(mat_disc[1, `col'], 0.01)
+  4.         local col = `col' + 1
+  5.     }
+  6. }
+
+. 
+. *** chi-squared tests
+. svyset [pweight=wt_rs]
+
+Sampling weights: wt_rs
+             VCE: linearized
+     Single unit: missing
+        Strata 1: <one>
+ Sampling unit 1: <observations>
+           FPC 1: <zero>
+
+. 
+. foreach prefix in age educ employed relig reg15 {
+  2.     if "`prefix'" == "reg15" {
+  3.         svy: tab d `prefix'_1_r if W == 4 & days_all >= 88, row
+  4.     }
+  5.     else {
+  6.         svy: tab d `prefix'_4_r if W == 4 & days_all >= 88, row
+  7.     }
+  8.     scalar `prefix'_p = round(e(p_Pear), 0.01)
+  9. }
+(running tabulate on estimation sample)
+
+Number of strata =     1                          Number of obs   =      5,081
+Number of PSUs   = 5,081                          Population size = .705910067
+                                                  Design df       =      5,080
+
+--------------------------------------------------
+          |            Age groups (w4)            
+        d | Below 40     40-49  50 and A     Total
+----------+---------------------------------------
+        0 |    .3959      .239     .3651         1
+        1 |    .4394     .2678     .2928         1
+          | 
+    Total |    .4006     .2421     .3573         1
+--------------------------------------------------
+Key: Row proportion
+
+  Pearson:
+    Uncorrected   chi2(2)         =   11.1902
+    Design-based  F(1.32, 6695.98)=    0.9438     P = 0.3556
+(running tabulate on estimation sample)
+
+Number of strata =     1                          Number of obs   =      5,081
+Number of PSUs   = 5,081                          Population size = .705910067
+                                                  Design df       =      5,080
+
+----------------------------------------
+          |        Eduation (w4)        
+        d | HS or Le  AA/BA/MA     Total
+----------+-----------------------------
+        0 |    .5971     .4029         1
+        1 |    .5578     .4422         1
+          | 
+    Total |    .5928     .4072         1
+----------------------------------------
+Key: Row proportion
+
+  Pearson:
+    Uncorrected   chi2(1)         =    3.1437
+    Design-based  F(1, 5080)      =    0.3329     P = 0.5640
+(running tabulate on estimation sample)
+
+Number of strata =     1                          Number of obs   =      5,081
+Number of PSUs   = 5,081                          Population size = .705910067
+                                                  Design df       =      5,080
+
+----------------------------------------
+          |   Employement status (w4)   
+        d | Unemploy  Employed     Total
+----------+-----------------------------
+        0 |    .4854     .5146         1
+        1 |    .4431     .5569         1
+          | 
+    Total |    .4808     .5192         1
+----------------------------------------
+Key: Row proportion
+
+  Pearson:
+    Uncorrected   chi2(1)         =    3.5236
+    Design-based  F(1, 5080)      =    0.4914     P = 0.4834
+(running tabulate on estimation sample)
+
+Number of strata =     1                          Number of obs   =      5,081
+Number of PSUs   = 5,081                          Population size = .705910067
+                                                  Design df       =      5,080
+
+------------------------------------------------------------
+          |                  Religion (w4)                  
+        d | None/Oth  Protesta  Catholic  Buddhist     Total
+----------+-------------------------------------------------
+        0 |    .4714     .2179      .085     .2257         1
+        1 |    .5234     .2903     .0585     .1279         1
+          | 
+    Total |     .477     .2257     .0821     .2151         1
+------------------------------------------------------------
+Key: Row proportion
+
+  Pearson:
+    Uncorrected   chi2(3)         =   40.2834
+    Design-based  F(2.08, 10586.66)=    3.1335    P = 0.0415
+(running tabulate on estimation sample)
+
+Number of strata =     1                          Number of obs   =      5,081
+Number of PSUs   = 5,081                          Population size = .705910067
+                                                  Design df       =      5,080
+
+--------------------------------------
+          |         reg15_1_r         
+        d |     1      2      3  Total
+----------+---------------------------
+        0 | .3761  .2237  .4002      1
+        1 | .3433  .2639  .3928      1
+          | 
+    Total | .3726   .228  .3994      1
+--------------------------------------
+Key: Row proportion
+
+  Pearson:
+    Uncorrected   chi2(2)         =    4.9837
+    Design-based  F(1.69, 8570.36)=    0.3425     P = 0.6731
+
+. 
+. * total sample sizes
+. tab d if d == 0 & W ==4  & days_all >= 88
+
+          d |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |      4,675      100.00      100.00
+------------+-----------------------------------
+      Total |      4,675      100.00
+
+. scalar N_u = r(N)
+
+. 
+. tab d if d == 1 & W ==4  & days_all >= 88
+
+          d |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |        406      100.00      100.00
+------------+-----------------------------------
+      Total |        406      100.00
+
+. scalar N_t = r(N)
+
+. 
+. ********************************************************************************
+. *** Put into excel
+. ********************************************************************************
+. putexcel set output/descriptive-table.xlsx, replace
+Note: File will be replaced when the first putexcel command is issued.
+
+. 
+. * Define headers
+. putexcel B1 = "Descriptive Statistics by the Treatment Status"
+file output/descriptive-table.xlsx saved
+
+. putexcel B2 = "Mean" D2 = "Min/Max" F2 = "p-value"
+file output/descriptive-table.xlsx saved
+
+. putexcel B3 = "Untreated Group" C3 = "Treated Group" D3 = "Min" E3 = "Max" F3 = "χ2/t-test"
+file output/descriptive-table.xlsx saved
+
+. 
+. * Fill in the table
+. * Outcome Variable
+. putexcel A4 = "Outcome Variable"
+file output/descriptive-table.xlsx saved
+
+. putexcel A5 = "Pre-treatment periods (waves 1-4)" B5 = y_pre_u ///
+>                  C5 = y_pre_t D5 = 1 E5 = 4 F5 = y_diff_pre_p
+file output/descriptive-table.xlsx saved
+
+. putexcel B6 = y_sd_pre_u C6 = y_sd_pre_t 
+file output/descriptive-table.xlsx saved
+
+. putexcel A7 = "Post-treatment period (wave 5)" B7 = y_post_u ///
+>                  C7 = y_post_t D7 = 1 E7 = 4 F7 = y_diff_post_p
+file output/descriptive-table.xlsx saved
+
+. putexcel B8 = y_sd_post_u C8 = y_sd_post_t 
+file output/descriptive-table.xlsx saved
+
+. 
+. * Age
+. putexcel A9 = "Age"
+file output/descriptive-table.xlsx saved
+
+. putexcel A10 = "Below 40" B10 = age_c1_u C10 = age_c1_t D10 = 0 E10 = 1 F10 = age_p
+file output/descriptive-table.xlsx saved
+
+. putexcel A11 = "40-49" B11 = age_c2_u C11 = age_c2_t D11 = 0 E11 = 1
+file output/descriptive-table.xlsx saved
+
+. putexcel A12 = "50 and above" B12 = age_c3_u C12 = age_c3_t D12 = 0 E12 = 1
+file output/descriptive-table.xlsx saved
+
+. 
+. * Education
+. putexcel A13 = "Education"
+file output/descriptive-table.xlsx saved
+
+. putexcel A14 = "HS or Less" B14 = educ_c1_u C14 = educ_c1_t D14 = 0 E14 = 1 F14 = educ_p
+file output/descriptive-table.xlsx saved
+
+. putexcel A15 = "Some College or above" B15 = educ_c2_u C15 = educ_c2_t D15 = 0 E15 = 1
+file output/descriptive-table.xlsx saved
+
+. 
+. * Employment Status
+. putexcel A16 = "Employment Status"
+file output/descriptive-table.xlsx saved
+
+. putexcel A17 = "Not in labor force/unemployed" B17 = emp_c1_u C17 = emp_c1_t D17 = 0 E17 = 1 F17 = employed_p 
+file output/descriptive-table.xlsx saved
+
+. putexcel A18 = "Employed" B18 = emp_c2_u C18 = emp_c2_t D18 = 0 E18 = 1
+file output/descriptive-table.xlsx saved
+
+. 
+. * Religion
+. putexcel A19 = "Religion"
+file output/descriptive-table.xlsx saved
+
+. putexcel A20 = "None/other" B20 = relig_c1_u C20 = relig_c1_t D20 = 0 E20 = 1 F20 = relig_p
+file output/descriptive-table.xlsx saved
+
+. putexcel A21 = "Protestant" B21 = relig_c2_u C21 = relig_c2_t D21 = 0 E21 = 1
+file output/descriptive-table.xlsx saved
+
+. putexcel A22 = "Catholic" B22 = relig_c3_u C22 = relig_c3_t D22 = 0 E22 = 1
+file output/descriptive-table.xlsx saved
+
+. putexcel A23 = "Buddhist" B23 = relig_c4_u C23 = relig_c4_t D23 = 0 E23 = 1
+file output/descriptive-table.xlsx saved
+
+. 
+. * Type of residence at age 15
+. putexcel A24 = "Type of residence at age 15"
+file output/descriptive-table.xlsx saved
+
+. putexcel A25 = "Metropolitan/Abroad" B25 = reg15_c1_u C25 = reg15_c1_t D25 = 0 E25= 1 F25 = reg15_p
+file output/descriptive-table.xlsx saved
+
+. putexcel A26 = "Mid-sized city" B26= reg15_c2_u C26 = reg15_c2_t D26 = 0 E26 = 1
+file output/descriptive-table.xlsx saved
+
+. putexcel A27 = "Rural" B27 = reg15_c3_u C27 = reg15_c3_t D27 = 0 E27 = 1
+file output/descriptive-table.xlsx saved
+
+. 
+. * Self-rated health
+. putexcel A28 = "Self-rated health" B28 = health_u C28 = health_t D28 = 1 E28 = 5 F28 = health_diff_p
+file output/descriptive-table.xlsx saved
+
+. putexcel A29 = "" B29 = health_sd_u C29 = health_sd_t
+file output/descriptive-table.xlsx saved
+
+. 
+. * Number of Individuals
+. putexcel A30 = "No. of Individuals" B30 = N_u C30 = N_t
+file output/descriptive-table.xlsx saved
+
+. 
+. ********************************************************************************
+. *** Visualize the resarch design
+. ********************************************************************************
+. set scheme white_ptol
+
+. 
+. gen date = mdy(int_m, int_d, int_y)
+(24,560 missing values generated)
+
+. format date %d
+
+. tab date if days_all == 88
+
+       date |      Freq.     Percent        Cum.
+------------+-----------------------------------
+  26sep2014 |         42      100.00      100.00
+------------+-----------------------------------
+      Total |         42      100.00
+
+. tab date if days_all == 241
+
+       date |      Freq.     Percent        Cum.
+------------+-----------------------------------
+  26feb2015 |          7      100.00      100.00
+------------+-----------------------------------
+      Total |          7      100.00
+
+. tab d if days_all >= 88 & days_all < 241 & W == 5
+
+          d |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |      4,675      100.00      100.00
+------------+-----------------------------------
+      Total |      4,675      100.00
+
+. tab d if days_all >= 241  & W == 5
+
+          d |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |        406      100.00      100.00
+------------+-----------------------------------
+      Total |        406      100.00
+
+. 
+. twoway (hist date if days_all <= 88, width(1) freq ///
+> color(gray%40) lpattern(solid) lwidth(medium)) || ///
+> (hist date if days_all >= 88 & days_all < 241, width(1) freq ///
+> color(blue%40) lpattern(solid) lwidth(medium)) ||  ///
+> (hist date if days_all >= 241 , width(1) freq ///
+>  color(red%40) lpattern(solid) lwidth(medium)) || ///
+>  (pcarrowi 140 20130 140 20145 (9) "Court Decision Announced", msize(2) barbsize(2)  color(black) mlabsize(small), legend(off) ) || ///
+>   (pcarrowi 140 19975 140 19992 (9) "5 Months Prior", msize(2) barbsize(2)  color(black) mlabsize(small), legend(off) ) , ///
+> graphregion(margin(large)) ylabel(0(30)150) xline(19992 20145, lcolor(black) lpattern(solid) lwidth(medium))  legend(off) ///
+> ytitle("No. of Respondents", size(medsmall)) xtitle("Interview Date", size(medsmall)) ///
+>         xlabel(19905 "01jul2014" 19992 "26sep2014" 20145 "26feb2015" 20180 "01apr2015") ///
+>  text(120 20025 "{bf: Comparison Group }", place(e) size(.33cm)) ///
+>   text(110 20045 "{bf:(N = 4,675)}", place(e) size(.33cm)) ///
+>  text(120 20148 "{bf: Treatment}", place(e) size(.33cm)) ///
+>   text(113 20155 "{bf: Group}", place(e) size(.33cm)) ///
+>  text(103 20149 "{bf: (N = 406)}", place(e) size(.33cm)) 
+
+.  
+. gr save output/interview-dates.gph, replace
+(file output/interview-dates.gph not found)
+file output/interview-dates.gph saved
+
+. graph export output/interview-dates.png,   replace 
+(file output/interview-dates.png not found)
+file output/interview-dates.png saved as PNG format
+
+. graph export output/interview-dates.pdf,   replace 
+file output/interview-dates.pdf saved as PDF format
+
+. 
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\wd\adultery_law_korea\log/02-descriptives.log
+  log type:  text
+ closed on:  27 Nov 2024, 12:26:52
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
