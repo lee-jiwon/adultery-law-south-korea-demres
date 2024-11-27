@@ -10,7 +10,7 @@
 
 The content below is copied from the file, roadmap-for-lee-and-choi-DemRes-2024.txt, which can be found in the `docs` folder of the repository.
 
-### Notes
+## Notes
 
 ### 1. Working Directory Setup
 The working directory in Stata should be set to the top directory (i.e., the one that includes the folders: `code`, `data`, `docs`, `output`, `log`).  If using as a GitHub repository, and when stored locally in a folder "GitHub," the working directory would be set as the main repository folder for the project:
