@@ -6,8 +6,6 @@
 
 * Lee, Jiwon and Yool Choi. 2024. ”Decriminalization of Adultery Likely Changed Women’s Views on Divorce Following Spousal Infidelity in South Korea.” *Demographic Research*.
 
-## Road map of code 
-
 The content below is copied from the file, roadmap-for-lee-and-choi-DemRes-2024.txt, which can be found in the `docs` folder of the repository.
 
 ## Notes
@@ -32,27 +30,29 @@ It is recommended that the scripts be run in order and can be run with the scrip
 
 
 
-## Roadmap for the Code
+### Roadmap for the Code
 
 1. **Data Preparation**
 
-**Script:** `code/01-data-prep.do`
- - Prepares the data for analysis.
-- **Inputs** (KLoWF individual-level data Waves 1-5):
-  - `data/klowf01p.dta` 
-  - `data/klowf02p.dta` 
-  - `data/klowf03p.dta` 
-  - `data/klowf04p.dta` 
-  - `data/klowf05p.dta` 
+- **Script:** `code/01-data-prep.do`
+- **Purpose:** Prepares the data for analysis.
+- **Inputs:**
+  - `data/klowf01p.dta` (KLoWF micro-level data Wave 1)
+  - `data/klowf02p.dta` (KLoWF micro-level data Wave 2)
+  - `data/klowf03p.dta` (KLoWF micro-level data Wave 3)
+  - `data/klowf04p.dta` (KLoWF micro-level data Wave 4)
+  - `data/klowf05p.dta` (KLoWF micro-level data Wave 5)
 - **Calls:**
   - `code/remove-labels.do` (Removes variable/value labels; comment out if you need the labels)
 - **Output:**
   - `data/data_w1_w5_recoded.dta`
 
+---
+
 2. **Descriptive Analysis**
 
 - **Script:** `code/02-descriptives.do`
-- Produces descriptive statistics (e.g., sample means of key variables) and visualizes the distribution of interview dates.
+- **Purpose:** Produces descriptive statistics (e.g., sample means of key variables) and visualizes the distribution of interview dates.
 - **Input:**
   - `data/data_w1_w5_recoded.dta`
 - **Outputs:**
@@ -62,10 +62,12 @@ It is recommended that the scripts be run in order and can be run with the scrip
     - `output/interview-dates.png`
     - `output/interview-dates.pdf` (Figure 2)
 
+---
+
 3. **Google Search Trends Analysis**
 
 - **Script:** `code/03-web-search-trends.do`
-- Processes and visualizes Google search trends for the terms "Adultery," "Adultery law," and "Abolition of adultery law" (in Korean)
+- **Purpose:** Processes and visualizes Google search trends for the terms "Adultery," "Adultery law," and "Abolition of adultery law."
 - **Inputs:**
   - `data/adultery_abolition.csv` (Google search data obtained from Google Trends)
   - `data/adultery_crime.csv`
@@ -76,10 +78,12 @@ It is recommended that the scripts be run in order and can be run with the scrip
     - `output/web-search-trends.png`
     - `output/web-search-trends.pdf` (Figure 1)
 
+---
+
 4. **Main Analysis**
 
 - **Script:** `code/04-analysis.do`
-- Estimates the main models and generates accompanying graphs.
+- **Purpose:** Estimates the main models and generates accompanying graphs.
 - **Input:**
   - `data/data_w1_w5_recoded.dta`
 - **Outputs:**
@@ -89,9 +93,6 @@ It is recommended that the scripts be run in order and can be run with the scrip
     - `output/pre-trends-levels.gph`
     - `output/pre-trends-levels.png`
     - `output/pre-trends-levels.pdf` (Figure 3)
-
----
-
 
 
 
