@@ -2,6 +2,6 @@
 *.dta
 *.zip
 /old
-readme-for-demres-rep-file.txt
-final_submission/6677-replicaton-readme.txt
-final_submission/6677-lee-choi-tweet.txt
+/final_submission
+readme-for-demres-rep-files.txt
+
