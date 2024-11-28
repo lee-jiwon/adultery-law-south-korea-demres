@@ -1,8 +1,8 @@
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:\wd\adultery_law_korea\log/03-web-search-trends.log
+       log:  C:\wd\adultery-law-south-korea-demres\log/03-web-search-trends.log
   log type:  text
- opened on:  27 Nov 2024, 12:26:52
+ opened on:  27 Nov 2024, 18:43:59
 
 . 
 . ********************************************************************************
@@ -246,8 +246,8 @@ variable v2 was byte now float
 . tempfile data1
 
 . save `data1', replace
-(file C:\Users\jlee\AppData\Local\Temp\ST_a5740_000001.tmp not found)
-file C:\Users\jlee\AppData\Local\Temp\ST_a5740_000001.tmp saved as .dta format
+(file C:\Users\jlee\AppData\Local\Temp\ST_2da7c_000001.tmp not found)
+file C:\Users\jlee\AppData\Local\Temp\ST_2da7c_000001.tmp saved as .dta format
 
 . 
 . twoway bar v2 date
@@ -489,8 +489,8 @@ variable v2 was byte now float
 . tempfile data2
 
 . save `data2', replace
-(file C:\Users\jlee\AppData\Local\Temp\ST_a5740_000002.tmp not found)
-file C:\Users\jlee\AppData\Local\Temp\ST_a5740_000002.tmp saved as .dta format
+(file C:\Users\jlee\AppData\Local\Temp\ST_2da7c_000002.tmp not found)
+file C:\Users\jlee\AppData\Local\Temp\ST_2da7c_000002.tmp saved as .dta format
 
 . 
 . import delimited using data/adultery_law.csv, clear
@@ -764,7 +764,7 @@ file output/web-search-trends.pdf saved as PDF format
 . 
 . log close
       name:  <unnamed>
-       log:  C:\wd\adultery_law_korea\log/03-web-search-trends.log
+       log:  C:\wd\adultery-law-south-korea-demres\log/03-web-search-trends.log
   log type:  text
- closed on:  27 Nov 2024, 12:26:56
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ closed on:  27 Nov 2024, 18:44:04
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

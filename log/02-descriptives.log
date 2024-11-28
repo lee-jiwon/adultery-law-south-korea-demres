@@ -1,8 +1,8 @@
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:\wd\adultery_law_korea\log/02-descriptives.log
+       log:  C:\wd\adultery-law-south-korea-demres\log/02-descriptives.log
   log type:  text
- opened on:  27 Nov 2024, 12:26:22
+ opened on:  27 Nov 2024, 18:43:21
 
 . 
 . use data/data_w1_w5_recoded.dta, clear
@@ -280,8 +280,7 @@ Distribution of: reg15_1_r
 >         if days_all >= 88 & W == 4 [aw= wt_rs], by(d) c(stat) stat( mean sd n)
 
 Summary statistics: mean sd count
-     for variables: age_4_r_c1 age_4_r_c2 age_4_r_c3 educ_4_r_c1 educ_4_r_c2 employed_4_r_c1 employed_4_r_c2 relig_4_r_c1 relig_4_r_c2 relig_4_r_c3 relig_4_r_c4 re
-> g15_1_r_c1 reg15_1_r_c2 reg15_1_r_c3
+     for variables: age_4_r_c1 age_4_r_c2 age_4_r_c3 educ_4_r_c1 educ_4_r_c2 employed_4_r_c1 employed_4_r_c2 relig_4_r_c1 relig_4_r_c2 relig_4_r_c3 relig_4_r_c4 reg15_1_r_c1 reg15_1_r_c2 reg15_1_r_c3
   by categories of: d
 
            d |   e(mean)      e(sd)   e(count) 
@@ -346,7 +345,7 @@ macros:
               e(wtype) : "aweight"
                e(wexp) : "= wt_rs"
               e(stats) : "mean sd count"
-               e(vars) : "age_4_r_c1 age_4_r_c2 age_4_r_c3 educ_4_r_c1 educ_4_r_c2 employed_4_r_c1 employed_4_r_c2 relig_4_r_c1 relig_4_r_c2 relig_4_r_c3 relig.."
+               e(vars) : "age_4_r_c1 age_4_r_c2 age_4_r_c3 educ_4_r_c1 educ_4_r_c2 employed_4_r_c1 employed_4_r_c2 relig_4_r_c1 relig_4_r_c2 relig_4_r_c3 relig_4_r_c4 reg15_1_r_c1 reg15_1_r_c2 reg15_1_r_c3"
               e(byvar) : "d"
 
 matrices:
@@ -769,7 +768,7 @@ file output/interview-dates.pdf saved as PDF format
 . 
 . log close
       name:  <unnamed>
-       log:  C:\wd\adultery_law_korea\log/02-descriptives.log
+       log:  C:\wd\adultery-law-south-korea-demres\log/02-descriptives.log
   log type:  text
- closed on:  27 Nov 2024, 12:26:52
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ closed on:  27 Nov 2024, 18:43:59
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
